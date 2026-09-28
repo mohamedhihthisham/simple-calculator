@@ -6,20 +6,31 @@ def calculate():
     try:
         expression = display.get()
 
-        # Replace symbols with Python operators
+        # Replace calculator symbols with Python operators
         expression = expression.replace("×", "*")
         expression = expression.replace("÷", "/")
 
+        # Calculate the expression
         result = eval(expression)
+
+        # Convert 4.0 to 4
+        if isinstance(result, float) and result.is_integer():
+            result = int(result)
 
         display.delete(0, tk.END)
         display.insert(0, str(result))
 
     except ZeroDivisionError:
-        messagebox.showerror("Error", "Cannot divide by zero!")
+        messagebox.showerror(
+            "Error",
+            "Cannot divide by zero!"
+        )
 
-    except:
-        messagebox.showerror("Error", "Invalid calculation!")
+    except Exception:
+        messagebox.showerror(
+            "Error",
+            "Invalid calculation!"
+        )
 
 
 def clear():
@@ -44,6 +55,7 @@ display = tk.Entry(
     justify="right",
     bd=10
 )
+
 display.pack(
     padx=10,
     pady=20,
@@ -56,6 +68,7 @@ button_frame = tk.Frame(window)
 button_frame.pack()
 
 
+# Calculator buttons
 buttons = [
     ("7", 0, 0),
     ("8", 0, 1),
@@ -79,11 +92,11 @@ buttons = [
 ]
 
 
+# Create buttons
 for text, row, column in buttons:
 
     if text == "=":
         command = calculate
-
     else:
         command = lambda value=text: add(value)
 
@@ -117,4 +130,5 @@ clear_button = tk.Button(
 clear_button.pack(pady=15)
 
 
+# Run application
 window.mainloop()
