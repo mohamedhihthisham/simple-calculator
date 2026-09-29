@@ -41,10 +41,29 @@ def add(value):
     display.insert(tk.END, value)
 
 
+# Percentage function
+def percentage():
+    try:
+        value = float(display.get())
+        result = value / 100
+
+        if result.is_integer():
+            result = int(result)
+
+        display.delete(0, tk.END)
+        display.insert(0, str(result))
+
+    except Exception:
+        messagebox.showerror(
+            "Error",
+            "Invalid percentage!"
+        )
+
+
 # Main window
 window = tk.Tk()
 window.title("Simple Calculator")
-window.geometry("350x500")
+window.geometry("350x570")
 window.resizable(False, False)
 
 
@@ -92,7 +111,7 @@ buttons = [
 ]
 
 
-# Create buttons
+# Create calculator buttons
 for text, row, column in buttons:
 
     if text == "=":
@@ -117,6 +136,19 @@ for text, row, column in buttons:
     )
 
 
+# Percentage button
+percentage_button = tk.Button(
+    window,
+    text="%",
+    font=("Arial", 18),
+    width=20,
+    height=2,
+    command=percentage
+)
+
+percentage_button.pack(pady=5)
+
+
 # Clear button
 clear_button = tk.Button(
     window,
@@ -127,7 +159,7 @@ clear_button = tk.Button(
     command=clear
 )
 
-clear_button.pack(pady=15)
+clear_button.pack(pady=5)
 
 
 # Run application
